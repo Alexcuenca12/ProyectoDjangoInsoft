@@ -135,5 +135,5 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# sobre escribre la tabla usuario
-#AUTH_USER_MODEL = "userAuthentication.ADUsuario"
+# sobreescribre la tabla usuario
+AUTH_USER_MODEL = "userAuthentication.ADUsuario"

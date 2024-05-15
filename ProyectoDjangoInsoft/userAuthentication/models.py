@@ -27,15 +27,14 @@ class User(AbstractUser):
 
 
 
-
+"""
 class ADUsuario(AbstractUser):
+    cod_usuario = models.CharField(max_length=30, primary_key=True ,  verbose_name="COD_USUARIO")
+    nombre = models.CharField(max_length=60, verbose_name="NOMBRE")
+    pw_app = models.CharField(max_length=30, blank=True, null=True, verbose_name="PW_APP")
+    pw_bd = models.CharField(max_length=30, blank=True, null=True, verbose_name="PW_DB")
+   # cod_persona = models.ForeignKey(en_persona, on_delete=models.CASCADE,  verbose_name="COD_PERSONA")
 
-
-    cod_usuario = models.CharField(max_length=30, primary_key=True)
-    nombre = models.CharField(max_length=60)
-    pw_app = models.CharField(max_length=30, blank=True, null=True)
-    pw_bd = models.CharField(max_length=30, blank=True, null=True)
-    cod_persona = models.ForeignKey(en_persona, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'AD_USUARIO'
@@ -43,4 +42,8 @@ class ADUsuario(AbstractUser):
 
 
 
-"""
+
+
+
+
+
