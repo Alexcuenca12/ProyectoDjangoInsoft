@@ -10,8 +10,8 @@ from BaseModelo.models import BaseModel
 
 class en_catalogo(BaseModel):
     objects = None
-    #COD_CATALOGO= models.IntegerField(primary_key=True, unique=True, verbose_name="COD_CATALOGO")
-    COD_CATALOGO= models.BigAutoField(primary_key=True)
+    COD_CATALOGO= models.IntegerField(primary_key=True, unique=True, verbose_name="COD_CATALOGO")
+    #COD_CATALOGO= models.BigAutoField(primary_key=True)
     NOMBRE = models.CharField(max_length=60, verbose_name="NOMBRE")
 
 
@@ -28,8 +28,8 @@ class en_catalogo(BaseModel):
 
 class en_persona (models.Model):
 
-   # COD_PERSONA = models.IntegerField(primary_key=True, unique=True, verbose_name="EN_PERSONA_PK")
-    COD_PERSONA = models.BigAutoField(primary_key=True)
+    COD_PERSONA = models.IntegerField(primary_key=True, unique=True, verbose_name="EN_PERSONA_PK")
+    # COD_PERSONA = models.BigAutoField(primary_key=True)
     PRIMER_NOMBRE = models.CharField(max_length=25, verbose_name="PRIMER_NOMBRE")
     SEGUNDO_NOMBRE = models.CharField(max_length=25,  verbose_name="SEGUNDO_NOMBRE")
     APELLIDO_PATERNO = models.CharField(max_length=25, verbose_name="APELLIDO_PATERNO")
