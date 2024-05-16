@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'P_persona',
     'BaseModelo',
     'userAuthentication',
+    'catalogo'
 ]
 #'userAuthentication.apps.UserAuthenticationConfig',
 MIDDLEWARE = [

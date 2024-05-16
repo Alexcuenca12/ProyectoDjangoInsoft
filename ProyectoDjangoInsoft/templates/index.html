@@ -9,16 +9,95 @@
 </head>
 <body>
 
-<h1>Plantilla de prueba</h1>
-{% block content %}
-<a href="{% url 'persona:vista2'%}"> vistas regsitro </a>
 
-<h1>{{datos}}</h1>
 
-{% endblock %}
 
-<p> {{name}}</p>
+<h3>Mantenimiento  Persona Natural</h3>
+<label>codigo </label>
+<input type="text" name="codigo" id="codigo">
 
+<label>nombres </label>
+<input type="text" name="primernombre" id="primernombre">
+<input type="text" name="segundonombre" id="segundonombre">
+
+
+<label>Apellidos</label>
+<input type="text" name="primerapellido" id="primerapellido">
+<input type="text" name="segundoapellido" id="segundoapellido">
+
+<label>Genero</label>
+<select name="select">
+  <option value="value1">Value 1</option>
+  <option value="value2" selected>Value 2</option>
+  <option value="value3">Value 3</option>
+</select>
+
+<label>Fecha de nacimiento: </label>
+<input type="date" name="fechanacimiento" id="fechanacimiento">
+
+
+<label>Pais Naci: </label>
+<select name="select">
+  <option value="value1">Value 1</option>
+  <option value="value2" selected>Value 2</option>
+  <option value="value3">Value 3</option>
+</select>
+
+<label>Lugar Naci:  </label>
+<select name="select">
+  <option value="value1">Value 1</option>
+  <option value="value2" selected>Value 2</option>
+  <option value="value3">Value 3</option>
+</select>
+
+<label>Ocupacion :  </label>
+<select name="select">
+  <option value="value1">Value 1</option>
+  <option value="value2" selected>Value 2</option>
+  <option value="value3">Value 3</option>
+</select>
+
+<label>Tipos Persona Sri. </label>
+<select name="select">
+  <option value="value1">Value 1</option>
+  <option value="value2" selected>Value 2</option>
+  <option value="value3">Value 3</option>
+</select>
+
+
+<label>Conyuge :</label>
+<select name="select">
+  <option value="value1">Value 1</option>
+  <option value="value2" selected>Value 2</option>
+  <option value="value3">Value 3</option>
+</select>
+
+<label>Observaciones:</label>
+<textarea id="observaciones" name="observaciones" rows="4" cols="50" ></textarea>
+
+<label>Estado Civil: </label>
+<select name="select">
+  <option value="value1">Value 1</option>
+  <option value="value2" selected>Value 2</option>
+  <option value="value3">Value 3</option>
+</select>
+
+
+<label>Estado:</label>
+<select name="select">
+  <option value="value1">Value 1</option>
+  <option value="value2" selected>Value 2</option>
+  <option value="value3">Value 3</option>
+</select>
+
+
+<label>Organiza :</label>
+<input type="text" name="Organiza" id="Organiza">
+<input type="text" name="Organiza2" id="Organiza2">
+
+
+<label>Nacionalidad</label>
+<input type="text" name="Nacionalidad" id="Nacionalidad">
 
 
 

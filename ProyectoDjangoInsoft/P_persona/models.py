@@ -1,6 +1,10 @@
 from django.db import models
 
 from BaseModelo.models import BaseModel
+from catalogo.models import en_catalogo
+
+
+#from catalogo.models import en_catalogo
 
 
 #from BaseModelo.models import BaseModel
@@ -8,23 +12,8 @@ from BaseModelo.models import BaseModel
 
 # Create your models here.
 
-class en_catalogo(BaseModel):
-    objects = None
-    COD_CATALOGO= models.IntegerField(primary_key=True, unique=True, verbose_name="COD_CATALOGO")
-    #COD_CATALOGO= models.BigAutoField(primary_key=True)
-    NOMBRE = models.CharField(max_length=60, verbose_name="NOMBRE")
 
 
-    # es to string
-    def __str__(self):
-        return self.NOMBRE
-
-    class Meta:
-        db_table = 'EN_CATALOGO'
-
-    # para referenciar instancias de este modelo en las  relaciones.
-    def natural_key(self):
-        return (self.COD_CATALOGO)
 
 class en_persona (models.Model):
 
@@ -60,7 +49,8 @@ class en_persona (models.Model):
 
     #  llaves fk
 
-    # Relación con EnPersona (Cod_Conyuge)
+
+    # Relación con EnPersona (Cod_Conyuge) 
     cod_conyuge = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='EN_PERSONA_CONYUGE_FK',
                                     verbose_name="COD_CONYUGE")
     COD_OCUPACION = models.ForeignKey(en_catalogo, on_delete=models.CASCADE, related_name='EN_PERSONA_EN_CATALOGO_FK',
@@ -145,3 +135,69 @@ class EnIdentificaciones(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['cod_persona', 'cod_identificacion'], name='EN_IDENTIFICA_X_PERSONA_PK')
         ]
+
+
+class EnDigitales(BaseModel):
+    cod_persona = models.ForeignKey(en_persona, on_delete=models.CASCADE)
+    secuencia = models.IntegerField()
+   # cod_tipo_digital = models.ForeignKey(en_tipo_digital, on_delete=models.CASCADE)
+    archivo = models.BinaryField()
+    descripcion = models.CharField(max_length=1000)
+
+    extension = models.CharField(max_length=200)
+
+    class Meta:
+        db_table = 'EN_DIGITALES_X_PERSONA'
+        constraints = [
+            models.UniqueConstraint(fields=['secuencia', 'cod_persona'], name='EN_DIGITALES_X_PERSONA_PK')
+        ]
+
+
+class EnBienes(BaseModel):
+    cod_persona = models.ForeignKey(en_persona, on_delete=models.CASCADE)
+    secuencia = models.IntegerField()
+    tipo_bien = models.CharField(max_length=3)
+    avaluo = models.DecimalField(max_digits=22, decimal_places=8)
+    hipotecado = models.CharField(max_length=1, default='N')
+    institucion_hipoteca = models.CharField(max_length=50, blank=True, null=True)
+    secuencia_digital = models.ForeignKey(EnDigitales, on_delete=models.CASCADE)
+    direccion = models.CharField(max_length=150)
+    telefono = models.CharField(max_length=150)
+    observaciones = models.CharField(max_length=200)
+
+    class Meta:
+        db_table = 'EN_BIENES_X_PERSONA'
+        constraints = [
+            models.UniqueConstraint(fields=['secuencia', 'cod_persona'], name='EN_BIENES_X_PERSONA_PK'),
+          #  models.ForeignKeyConstraint(fields=['secuencia_digital', 'cod_persona'], to='P_persona.EnDigitales', name='EN_BIENXPERS_DIGITXPERS_FK'),
+          #  models.ForeignKeyConstraint(fields=['cod_persona'], to='P_persona.en_persona', name='EN_BIEXPER_EN_PERSONA_FK')
+        ]
+
+
+class EnVehiculos(BaseModel):
+    cod_persona = models.ForeignKey(en_persona, on_delete=models.CASCADE)
+    secuencia = models.IntegerField()
+    marca = models.CharField(max_length=30, blank=True, null=True)
+    modelo = models.CharField(max_length=30, blank=True, null=True)
+    anio = models.IntegerField()
+    avaluo = models.DecimalField(max_digits=22, decimal_places=8)
+    prendado = models.CharField(max_length=1, default='N')
+    institucion_prendado = models.CharField(max_length=50, blank=True, null=True)
+    secuencia_digital = models.ForeignKey(EnDigitales, on_delete=models.CASCADE, null=True, blank=True)
+
+    direccion = models.CharField(max_length=150)
+    telefono = models.CharField(max_length=150)
+    observaciones = models.CharField(max_length=200)
+
+    class Meta:
+        db_table = 'EN_VEHICULOS_X_PERSONA'
+        constraints = [
+            models.UniqueConstraint(fields=['secuencia', 'cod_persona'], name='EN_VEHICULOS_X_PERSONA_PK'),
+           # models.ForeignKeyConstraint(fields=['cod_persona'], to='P_persona.en_persona', name='EN_VEHXPE_EN_PERSONA_FK'),
+          #  models.ForeignKeyConstraint(fields=['secuencia_digital', 'cod_persona'], to='P_persona.EnDigitales', name='EN_VEHXPERS_DIGITXPERS_FK')
+        ]
+
+
+
+
+
