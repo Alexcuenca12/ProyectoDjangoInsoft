@@ -4,60 +4,68 @@ from BaseModelo.models import BaseModel
 
 
 # Create your models here.
-class EnGeo(BaseModel):
+class EnGeo(models.Model):
     cod_pais = models.CharField(max_length=8)
-    cod_lugar = models.CharField(max_length=8)
+    cod_lugar = models.CharField(primary_key=True, max_length=8)  # The composite primary key (cod_lugar, cod_pais) found, that is not supported. The first column is selected.
     nombre = models.CharField(max_length=100)
-    #llaves
-    cod_org = models.IntegerField()
-    cod_sri = models.CharField(max_length=8)
-    cod_pais_padre = models.CharField(max_length=8)
-    cod_icl = models.CharField()
-
-
-    class Meta:
-        db_table = 'EN_GEO'
-        constraints = [
-            models.UniqueConstraint(fields=['cod_lugar', 'cod_pais'], name='EN_GEO_PK')
-            # LLAVES FORANEAS
-
-        ]
-
-
-
-class EnOrGeo(BaseModel):
-    cod_pais = models.ForeignKey(EnGeo, on_delete=models.CASCADE)
-    cod_org = models.IntegerField()
-    nombre = models.CharField(max_length=60)
+    cod_org = models.ForeignKey('EnOrgGeo', models.DO_NOTHING, db_column='cod_org')
+    cod_sri = models.CharField(max_length=8, blank=True, null=True)
+    cod_pais_padre = models.CharField(max_length=8, blank=True, null=True)
+    cod_lugar_padre = models.ForeignKey('self', models.DO_NOTHING, db_column='cod_lugar_padre', blank=True, null=True)
+    audit_usuario_ing = models.CharField(max_length=30, blank=True, null=True)
+    audit_fecha_ing = models.DateField(blank=True, null=True)
+    audit_ip_ing = models.CharField(max_length=20, blank=True, null=True)
+    audit_usuario_mod = models.CharField(max_length=30, blank=True, null=True)
+    audit_fecha_mod = models.DateField(blank=True, null=True)
+    audit_ip_mod = models.CharField(max_length=20, blank=True, null=True)
+    cod_icl = models.CharField(max_length=20, blank=True, null=True)
+    cod_icl_parroquia = models.CharField(max_length=20, blank=True, null=True)
 
     class Meta:
-        db_table = 'EN_ORG_GEO'
-        constraints = [
-            models.UniqueConstraint(fields=['cod_org', 'cod_pais'], name='EN_ORG_GEO_PK')
-            # LLAVES FORANEAS
-
-        ]
+        managed = False
+        db_table = 'en_geo'
+        unique_together = (('cod_lugar', 'cod_pais'),)
 
 
 
-class EnPais(BaseModel):
-    cod_pais = models.CharField(max_length=8)
+
+
+class EnPais(models.Model):
+    cod_pais = models.CharField(primary_key=True, max_length=8)
     nombre = models.CharField(max_length=60)
-    codigo_telefono = models.CharField(max_length=10)
-    gentilicio = models.CharField(max_length=20)
-    #llaves
-    codigo_sri = models.CharField(max_length=20)
-    convenio_doble_tributacion = models.CharField(max_length=2 , null=True, blank=True )
-    certificado_origen = models.CharField(max_length=1)
-    certificado_euro = models.CharField(max_length=1)
+    codigo_telefono = models.CharField(max_length=10, blank=True, null=True)
+    gentilicio = models.CharField(max_length=20, blank=True, null=True)
+    audit_usuario_ing = models.CharField(max_length=30, blank=True, null=True)
+    audit_fecha_ing = models.DateField(blank=True, null=True)
+    audit_ip_ing = models.CharField(max_length=20, blank=True, null=True)
+    audit_usuario_mod = models.CharField(max_length=30, blank=True, null=True)
+    audit_fecha_mod = models.DateField(blank=True, null=True)
+    audit_ip_mod = models.CharField(max_length=20, blank=True, null=True)
+    codigo_sri = models.CharField(max_length=20, blank=True, null=True)
+    convenio_doble_tributacion = models.CharField(max_length=2)
+    certificado_origen = models.CharField(max_length=1, blank=True, null=True)
+    certificado_euro = models.CharField(max_length=1, blank=True, null=True)
 
-    class Meta :
-        db_table = 'EN_PAIS'
-        constraints = [
-            models.UniqueConstraint(fields=['cod_pais'], name='EN_PAIS_PK')
-            # LLAVES FORANEAS
-
-        ]
+    class Meta:
+        managed = False
+        db_table = 'en_pais'
 
 
 
+
+
+class EnOrgGeo(models.Model):
+    cod_pais = models.ForeignKey('EnPais', models.DO_NOTHING, db_column='cod_pais')
+    cod_org = models.IntegerField(primary_key=True)  # The composite primary key (cod_org, cod_pais) found, that is not supported. The first column is selected.
+    nombre = models.CharField(max_length=60)
+    audit_usuario_ing = models.CharField(max_length=30, blank=True, null=True)
+    audit_fecha_ing = models.DateField(blank=True, null=True)
+    audit_ip_ing = models.CharField(max_length=20, blank=True, null=True)
+    audit_usuario_mod = models.CharField(max_length=30, blank=True, null=True)
+    audit_fecha_mod = models.DateField(blank=True, null=True)
+    audit_ip_mod = models.CharField(max_length=20, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'en_org_geo'
+        unique_together = (('cod_org', 'cod_pais'),)

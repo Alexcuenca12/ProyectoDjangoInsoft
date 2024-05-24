@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro Catalogo</title>
+</head>
+<body>
+
+<h1> {{ titulo }}</h1>
+
+<form action="/team_name_url/" method="post">
+  <label for="team_name">Nombre de Catalogo: </label>
+  <input
+    id="team_name"
+    type="text"
+    name="name_field"
+    value="Default name for team." />
+     <label for="tipoCatalogoSelect">Seleccione un Tipo de Catálogo:</label>
+    <select id="tipoCatalogoSelect" name="tipoCatalogo">
+        {% for tipo in tipos_catalogo %}
+            <option value="{{ tipo.cod_tipo_catalogo }}">{{ tipo.nombre }}</option>
+        {% endfor %}
+    </select>
+
+
+  <input type="submit" value="OK" />
+</form>
+
+</body>
+</html>

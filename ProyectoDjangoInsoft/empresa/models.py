@@ -1,26 +1,23 @@
 from django.db import models
 
-# Create your models here.
-class ADEmpresa():
-    cod_empresa = models.CharField(max_length=8)
+
+
+
+class AdEmpresa(models.Model):
+    cod_empresa = models.CharField(primary_key=True, max_length=8)
     nombre = models.CharField(max_length=60)
     estado = models.IntegerField()
-    cod_persona = models.IntegerField()
-   # logo = models.
-    nro_establecimientos_activos = models.IntegerField()
-    nro_resolucion_contrib_esp = models.IntegerField()
-    fecha_nro_resolucion =models.DateField()
-    nombre_archivo_firma = models.CharField(max_length=60)
-    clave_firma = models.CharField(max_length=256)
-    fecha_caduca_firma = models.DateField()
-   # cod_rol = models.CharField(max_length=)
+    cod_persona = models.ForeignKey('persona.EnPersona', models.DO_NOTHING, db_column='cod_persona', blank=True, null=True)
+    logo = models.BinaryField(blank=True, null=True)
+    nro_establecimientos_activos = models.IntegerField(blank=True, null=True)
+    nro_resolucion_contrib_esp = models.IntegerField(blank=True, null=True)
+    fecha_nro_resolucion = models.DateField(blank=True, null=True)
+    nombre_archivo_firma = models.CharField(max_length=60, blank=True, null=True)
+    clave_firma = models.CharField(max_length=256, blank=True, null=True)
+    fecha_caduca_firma = models.DateField(blank=True, null=True)
+    cod_rol = models.CharField(max_length=8, blank=True, null=True)
     crm = models.CharField(max_length=1)
 
     class Meta:
-        db_table = 'ADE_EMPRESAS'
-        constraints = [
-            models.UniqueConstraint(fields=['cod_empresa'], name='AD_EMPRESA_PK'),
-            models.ForeignKeyConstraint(fields=['cod_persona'], to='P_persona.en_persona',
-                                        name='AD_EMPRESA_EN_PERSONA_FK'),
-            #models.ForeignKeyConstraint(fields=['cod_rol'], to='nombreapp.ad_rol', name='AD_EMP_ROL_FK')
-        ]
+        managed = False
+        db_table = 'ad_empresa'

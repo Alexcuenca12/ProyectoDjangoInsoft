@@ -1,39 +1,48 @@
 from django.db import models
 
-from BaseModelo.models import BaseModel
+from empresa.models import AdEmpresa
 
 
-# Create your models here.
-class EnTipoCatalogo(BaseModel):
-    cod_tipo_catalogo = models.CharField(max_length=8)
+#
+# from BaseModelo.models import BaseModel
+# from empresa.models import AdEmpresa
+#
+#
+class EnTipoCatalogo(models.Model):
+    cod_tipo_catalogo = models.CharField(primary_key=True, max_length=8)
     nombre = models.CharField(max_length=60)
+    audit_usuario_ing = models.CharField(max_length=30, blank=True, null=True)
+    audit_fecha_ing = models.DateField(blank=True, null=True)
+    audit_ip_ing = models.CharField(max_length=20, blank=True, null=True)
+    audit_usuario_mod = models.CharField(max_length=30, blank=True, null=True)
+    audit_fecha_mod = models.DateField(blank=True, null=True)
+    audit_ip_mod = models.CharField(max_length=20, blank=True, null=True)
 
     class Meta:
-        db_table = 'EN_TIPO_CATALOGO'
-        constraints = [
-            models.UniqueConstraint(fields=['cod_tipo_catalogo'], name='EN_TIPO_CATALOGO_PK')
-        ]
-
-
-class en_catalogo(BaseModel):
-    cod_catalogo = models.CharField(max_length=8)
+        managed = False
+        db_table = 'en_tipo_catalogo'
+class EnCatalogo(models.Model):
+    cod_catalogo = models.CharField(primary_key=True, max_length=8)
     nombre = models.CharField(max_length=60)
-    cod_tipo_catalogo = models.ForeignKey(EnTipoCatalogo, on_delete=models.CASCADE)
+    cod_tipo_catalogo = models.ForeignKey('EnTipoCatalogo', models.DO_NOTHING, db_column='cod_tipo_catalogo')
+    audit_usuario_ing = models.CharField(max_length=30, blank=True, null=True)
+    audit_fecha_ing = models.DateField(blank=True, null=True)
+    audit_ip_ing = models.CharField(max_length=20, blank=True, null=True)
+    audit_usuario_mod = models.CharField(max_length=30, blank=True, null=True)
+    audit_fecha_mod = models.DateField(blank=True, null=True)
+    audit_ip_mod = models.CharField(max_length=20, blank=True, null=True)
 
     class Meta:
-        db_table = 'EN_CATALOGO'
-        constraints = [
-            models.UniqueConstraint(fields=['cod_catalogo'], name='EN_CATALOGO_PK')
-        ]
-class EnCatalogoEmpresa(models.Model):
-    cod_empresa = models.CharField(max_length=8)
-    cod_catalogo = models.ForeignKey(en_catalogo, on_delete=models.CASCADE)
+        managed = False
+        db_table = 'en_catalogo'
+
+class EnCatalogoXEmpresa(models.Model):
+    cod_empresa = models.ForeignKey('empresa.AdEmpresa', models.DO_NOTHING, db_column='cod_empresa')
+    cod_catalogo = models.CharField(primary_key=True, max_length=8)  # The composite primary key (cod_catalogo, cod_empresa) found, that is not supported. The first column is selected.
     nombre = models.CharField(max_length=100)
-    cod_tipo_catalogo = models.ForeignKey(EnTipoCatalogo, on_delete=models.CASCADE)
+    cod_tipo_catalogo = models.ForeignKey('EnTipoCatalogo', models.DO_NOTHING, db_column='cod_tipo_catalogo')
 
     class Meta:
-        db_table = 'EN_CATALOGO_EMPRESA'
-        constraints = [
-            models.UniqueConstraint(fields=['cod_catalogo', 'cod_empresa'], name='EN_CATALOGO_X_EMPRESA_PK')
-            # llaves fkcompuestas
-        ]
+        managed = False
+        db_table = 'en_catalogo_x_empresa'
+        unique_together = (('cod_catalogo', 'cod_empresa'),)

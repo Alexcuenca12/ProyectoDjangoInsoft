@@ -38,10 +38,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'P_persona',
+    'persona',
     'BaseModelo',
     'userAuthentication',
-    'catalogo'
+    'catalogo',
+    'referencias',
+    'empresa',
+    'tipo',
+    'geo',
+    'estado',
+    'funcion',
+    'agencia'
+
 ]
 #'userAuthentication.apps.UserAuthenticationConfig',
 MIDDLEWARE = [

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Catalogos </title>
+</head>
+<body>
+
+
+
+    <h1>{{ titulo }}</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Cod_catalogo</th>
+                <th>Nombre</th>
+                <th>Tipo Catalogo</th>
+                <th>Accion</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for catalogo in catalogos %}
+                <tr>
+                    <td>{{ catalogo.cod_catalogo }}</td>
+                    <td>{{ catalogo.nombre }}</td>
+                    <td>{{ catalogo.cod_tipo_catalogo.nombre }}</td>                    <td> <button>Nuevo</button></td>
+                    <td> <button>Eliminar</button></td>
+
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+</body>
+</html>
